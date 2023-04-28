@@ -13,11 +13,12 @@ export const LoginScreen = ({navigation}) => {
         // style={buttons.container}
         onPress={() => navigation.navigate('sign-up')}
       >Login</MainButton> */}
-      <Title>로그인</Title>
       <MainTextInput 
-        placeholder={"아이디"}
+        placeholder={"ID"}
       />
-      <MainTextInput></MainTextInput>
+      <MainTextInput
+        placeholder={"PASSWORD"}
+      />
       <MainButton 
         onPress={() => {
           console.log('click login');
@@ -25,7 +26,11 @@ export const LoginScreen = ({navigation}) => {
         }}>
           로그인
       </MainButton>
-        
+      <View style={styles.signupContainer}>
+        <Text style={styles.infoText}>암호를 잊어버리셨나요?</Text>
+        <Text style={styles.signupBtn}>회원가입</Text>
+      </View>
+
     </View>
   )
 }
@@ -35,6 +40,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     justifyContent: 'center',
-    paddingBottom: 100
-  },  
+    paddingBottom: 200,
+    paddingHorizontal: 20,
+  },
+  signupContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent:'center'
+  },
+  infoText: {
+    paddingRight:5
+  },
+  signupBtn: {
+    color: '#206CFF'
+  }
 });
