@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { MainButton } from '../components/atoms/Button';
 import { MainTextInput } from '../components/atoms/TextInput';
@@ -22,15 +22,25 @@ export const LoginScreen = ({navigation}) => {
       <MainButton 
         onPress={() => {
           console.log('click login');
-          navigation.navigate('sign-up')
+          navigation.navigate('camera')
         }}>
           로그인
       </MainButton>
       <View style={styles.signupContainer}>
         <Text style={styles.infoText}>암호를 잊어버리셨나요?</Text>
-        <Text style={styles.signupBtn}>회원가입</Text>
+        <Pressable 
+        //   style={({pressed}) => 
+        //     pressed
+        //       ? [styles.buttonInnerContainer, styles.pressed]
+        //       : styles.buttonInnerContainer
+        // }
+        onPress={() => {
+          navigation.navigate('sign-up')
+        }}
+        >
+          <Text style={styles.signupBtn}>회원가입</Text>
+        </Pressable>
       </View>
-
     </View>
   )
 }
