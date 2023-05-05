@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { MainButton } from '../components/atoms/Button';
 import { MainTextInput } from '../components/atoms/TextInput';
 import { Title } from '../components/atoms/Title';
+import { CustomText } from '../components/atoms/Text';
 
 export const LoginScreen = ({navigation}) => {
   return (
@@ -24,21 +25,21 @@ export const LoginScreen = ({navigation}) => {
           console.log('click login');
           navigation.navigate('camera')
         }}>
+        <CustomText>
           로그인
+        </CustomText>
       </MainButton>
       <View style={styles.signupContainer}>
-        <Text style={styles.infoText}>암호를 잊어버리셨나요?</Text>
+        <Text style={styles.infoText}>
+          <CustomText>암호를 잊어버리셨나요?</CustomText>
+        </Text>
         <Pressable 
-        //   style={({pressed}) => 
-        //     pressed
-        //       ? [styles.buttonInnerContainer, styles.pressed]
-        //       : styles.buttonInnerContainer
-        // }
-        onPress={() => {
-          navigation.navigate('sign-up')
-        }}
-        >
-          <Text style={styles.signupBtn}>회원가입</Text>
+          onPress={() => {
+            navigation.navigate('sign-up')
+          }}>
+          <Text style={styles.signupBtn}>
+            <CustomText>회원가입</CustomText>
+          </Text>
         </Pressable>
       </View>
     </View>
