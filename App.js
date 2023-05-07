@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import RootNavigation from './src/navigation/rootNavigation';
 import { Provider } from 'react-redux';
@@ -8,6 +8,11 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 
 export default function App() {
+
+  // 상태표시줄 포함 (android)
+  const deviceWidth = Dimensions.get('screen').width
+  // 상태표시줄 미포함 측정 (android)
+  const deviceWindowWidth = Dimensions.get('window').width
 
   const [fontsLoaded] = useFonts({
     'nexon-gothic': require('./assets/fonts/NEXON_Lv2_Gothic.ttf'),

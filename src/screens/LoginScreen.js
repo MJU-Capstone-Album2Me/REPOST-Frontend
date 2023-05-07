@@ -22,7 +22,6 @@ export const LoginScreen = ({navigation}) => {
       />
       <MainButton 
         onPress={() => {
-          console.log('click login');
           navigation.navigate('camera')
         }}>
         <CustomText>

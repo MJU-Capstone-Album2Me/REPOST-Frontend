@@ -1,9 +1,11 @@
 
 import { View, Text, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 
-export const CustomText = ({ children }) => {
+export const CustomText = ({ children, style }) => {
   return (
-    <Text style={styles.text}>
+    <Text 
+      style={style ? [style, styles.text] : styles.text}
+    >
       {children}
     </Text>
   )
