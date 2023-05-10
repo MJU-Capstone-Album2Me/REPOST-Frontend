@@ -4,19 +4,29 @@ import { CustomText } from "../atoms/Text";
 
 export const AlbumBox = (props) => {
   return (
-    <View style={styles.container} >
-      <Image 
-        style={styles.image}
-        source={{'uri': props.image}} 
-      />
-      <CustomText
-        style={styles.customtext}
-      >{props.title}</CustomText>
+    <View style={styles.newCont}>
+      <Pressable
+        onPress={props.onPress ? props.onPress : null}>
+        <View 
+          style={styles.container} 
+          >
+            <Image 
+              style={styles.image}
+              source={{'uri': props.image}} 
+            />
+            <CustomText
+              style={styles.customtext}
+            >{props.title}</CustomText>
+        </View>
+      </Pressable>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
+  newCont: {
+    flex:0.5
+  },
   container: {
     margin: 10,
     flex: 1,
