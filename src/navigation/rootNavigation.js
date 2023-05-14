@@ -8,6 +8,7 @@ import { CameraScreen } from '../screens/CameraScreen';
 import { AlbumList } from '../screens/AlbumList';
 import { PostList } from '../screens/PostList';
 import { StatusBar } from 'expo-status-bar';
+import { ImageUploadScreen } from '../screens/ImageUploadScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,7 +17,7 @@ const RootNavigation = () => {
     <>
       <StatusBar />
       <Stack.Navigator 
-        initialRouteName='album-list'
+        initialRouteName='image-upload'
         screenOptions={{
           title: '앨범',
           contentStyle: {borderBottomColor: '#111111', borderBottomWidth: 2, borderStyle: 'solid', backgroundColor: '#111111'}
@@ -59,6 +60,12 @@ const RootNavigation = () => {
             title: '포스트'
           }}
         />
+        <Stack.Screen
+          name='image-upload'
+          component={ImageUploadScreen}
+          options={{
+            title: '이미지 업로드'
+          }} />
       </Stack.Navigator>
     </>
   );

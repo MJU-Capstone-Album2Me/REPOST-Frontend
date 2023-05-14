@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Button, TextInput, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { MainButton } from '../components/atoms/Button';
+import { MainButton } from '../components/atoms/Buttons';
 import { MainTextInput } from '../components/atoms/TextInput';
 import { Title } from '../components/atoms/Title';
 import { CustomText } from '../components/atoms/Text';

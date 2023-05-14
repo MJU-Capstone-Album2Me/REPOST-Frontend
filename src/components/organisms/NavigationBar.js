@@ -2,7 +2,7 @@
 import { View, Text, Pressable, StyleSheet, Image} from "react-native";
 import { CustomText } from "../atoms/Text";
 
-export const AlbumBox = (props) => {
+export const NavigationBar = (props) => {
   return (
     <View style={styles.newCont}>
       <Pressable
