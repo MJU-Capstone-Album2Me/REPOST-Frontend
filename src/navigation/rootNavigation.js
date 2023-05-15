@@ -17,7 +17,7 @@ const RootNavigation = () => {
     <>
       <StatusBar />
       <Stack.Navigator 
-        initialRouteName='image-upload'
+        initialRouteName='camera'
         screenOptions={{
           title: '앨범',
           contentStyle: {borderBottomColor: '#111111', borderBottomWidth: 2, borderStyle: 'solid', backgroundColor: '#111111'}

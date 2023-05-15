@@ -25,8 +25,8 @@ export const ImageUploadScreen = () => {
           }}
         />
         <View style={{display:'flex', flexDirection:'row', justifyContent: 'center', marginHorizontal: 40, marginVertical: 20}}>
-          <SubButton>저장</SubButton>
-          <SubButton>추가</SubButton>
+          <SubButton style={{margin: 17, flex: 1}}>저장</SubButton>
+          <SubButton style={{margin: 17, flex: 1}}>추가</SubButton>
         </View>
       </View>
     </View>

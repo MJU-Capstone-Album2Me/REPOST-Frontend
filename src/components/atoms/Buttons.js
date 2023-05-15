@@ -19,9 +19,9 @@ export const MainButton = ({ children, onPress }) => {
   )
 }
 
-export const SubButton = ({ children, onPress }) => {
+export const SubButton = ({ children, onPress, style }) => {
   return (
-    <View style={styles.subButtonOuterContainer}>
+    <View style={[styles.subButtonOuterContainer, style]}>
       <Pressable 
         style={({pressed}) => 
           pressed
@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
     elevation:2 ,
   },
   subButtonOuterContainer: {
-    flex:1,
+    // flex:1,
     borderColor: '#C3BFBF',
     borderRadius: 10,
     borderWidth: 1,
-    margin: 17,
+    // margin: 17,
     overflow: "hidden",
   },
   subButtonInnerContainer: {
