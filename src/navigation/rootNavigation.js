@@ -9,15 +9,26 @@ import { AlbumList } from '../screens/AlbumList';
 import { PostList } from '../screens/PostList';
 import { StatusBar } from 'expo-status-bar';
 import { ImageUploadScreen } from '../screens/ImageUploadScreen';
+import { CustomText } from '../components/atoms/Text';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const Stack = createNativeStackNavigator();
 
+function LogoTitle() {
+  return (
+    <View style={{backgroundColor:'black', width: wp('100%'), margin: 0, padding: 0}}>
+      <CustomText>나니</CustomText>
+    </View>
+  );
+}
+
 const RootNavigation = () => {
+  
   return (
     <>
-      <StatusBar />
+      <StatusBar hedden={true} />
       <Stack.Navigator 
-        initialRouteName='camera'
+        initialRouteName='album-list'
         screenOptions={{
           title: '앨범',
           contentStyle: {borderBottomColor: '#111111', borderBottomWidth: 2, borderStyle: 'solid', backgroundColor: '#111111'}
@@ -63,9 +74,8 @@ const RootNavigation = () => {
         <Stack.Screen
           name='image-upload'
           component={ImageUploadScreen}
-          options={{
-            title: '이미지 업로드'
-          }} />
+          // options={{ headerTitle: (props) => <LogoTitle {...props} /> }} 
+          />
       </Stack.Navigator>
     </>
   );

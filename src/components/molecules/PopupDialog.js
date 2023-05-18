@@ -4,9 +4,11 @@ import Dialog, { DialogContent,DialogButton } from 'react-native-popup-dialog';
 import { useState } from 'react';
 import { SubButton } from '../atoms/Buttons';
 import {launchCameraAsync, useCameraPermissions, PermissionStatus} from 'expo-image-picker'
+import { useDispatch } from 'react-redux';
+import { pushImg } from '../../store/reducers/imgs';
 
-export const CameraGalleryDialog = ({children, navigation}) => {
-  const [visible, setVisible] = useState(false)
+export const CameraGalleryDialog = ({children, navigation, visible, setVisible}) => {
+  const dispatch = useDispatch()
   const [pickedImage, setPickedImage] = useState();
   const [cameraPermissionInformation, requestPermission] = useCameraPermissions();
 
@@ -39,16 +41,10 @@ export const CameraGalleryDialog = ({children, navigation}) => {
     const image = await launchCameraAsync()
     console.log(image.assets[0].uri);
     setPickedImage(image.assets[0].uri)
+    pushImg(image.assets[0].uri)
   }
 
   return (
-    <View style={styles.container}>
-      <Button
-        title="modalContent"
-        onPress={() => {
-          setVisible(true)
-        }}
-      />
       <Dialog
         visible={visible}
         onTouchOutside={() => {
@@ -71,7 +67,6 @@ export const CameraGalleryDialog = ({children, navigation}) => {
             갤러리
         </SubButton>
       </Dialog>
-    </View>
   )
 }
 

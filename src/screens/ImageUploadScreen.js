@@ -4,11 +4,17 @@ import { StatusBar } from 'expo-status-bar';
 import { SliderBox } from 'react-native-image-slider-box';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { SubButton } from '../components/atoms/Buttons';
+import { useSelector } from 'react-redux';
+import { CameraGalleryDialog } from '../components/molecules/PopupDialog';
+import { useState } from 'react';
 
 export const ImageUploadScreen = () => {
-  
+  const imgsArr = useSelector((state) => state.imgsArr)
+  const [visible, setVisible] = useState(false)
+
   return (
     <View style={styles.container}>
+      <StatusBar />
       <View style={{ width: wp('100%'), height: hp('30%'), top: 30 }}>
         <SliderBox
           autoplay={false}  //자동 슬라이드 넘김
@@ -26,9 +32,13 @@ export const ImageUploadScreen = () => {
         />
         <View style={{display:'flex', flexDirection:'row', justifyContent: 'center', marginHorizontal: 40, marginVertical: 20}}>
           <SubButton style={{margin: 17, flex: 1}}>저장</SubButton>
-          <SubButton style={{margin: 17, flex: 1}}>추가</SubButton>
+          <SubButton 
+            style={{margin: 17, flex: 1}}
+            onPress={()=>{setVisible(true)}}
+            >추가</SubButton>
         </View>
       </View>
+      <CameraGalleryDialog visible={visible} setVisible={setVisible}/>
     </View>
   )
 }
