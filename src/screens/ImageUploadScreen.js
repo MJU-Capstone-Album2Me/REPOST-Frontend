@@ -1,5 +1,5 @@
 
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { SliderBox } from 'react-native-image-slider-box';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -7,14 +7,25 @@ import { SubButton } from '../components/atoms/Buttons';
 import { useSelector } from 'react-redux';
 import { CameraGalleryDialog } from '../components/molecules/PopupDialog';
 import { useState } from 'react';
+import { CustomText } from '../components/atoms/Text';
 
-export const ImageUploadScreen = () => {
+export const ImageUploadScreen = ({navigation}) => {
   const imgsArr = useSelector((state) => state.imgsArr)
   const [visible, setVisible] = useState(false)
 
   return (
     <View style={styles.container}>
-      <StatusBar />
+      <View style={styles.header}>
+        <Pressable 
+          onPress={()=> navigation.navigate('album-list')}
+          style={{width:35, height:35}}>
+        <Image 
+          style={{width:'100%', height:'100%', opacity: 0.5}} source={require('../../assets/reject.png')}/>
+        </Pressable>
+        <Pressable onPress={() => {navigation.navigate('post-write')}}>
+          <Text style={{fontSize:22, color:'#206CFF', fontFamily: 'nexon-gothic-medium'}}>다음</Text>
+        </Pressable>      
+      </View>
       <View style={{ width: wp('100%'), height: hp('30%'), top: 30 }}>
         <SliderBox
           autoplay={false}  //자동 슬라이드 넘김
@@ -23,14 +34,14 @@ export const ImageUploadScreen = () => {
           images={['https://images.pexels.com/photos/296282/pexels-photo-296282.jpeg?cs=srgb&dl=pexels-lukas-296282.jpg&fm=jpg','https://images.pexels.com/photos/1556691/pexels-photo-1556691.jpeg?cs=srgb&dl=pexels-daniel-reche-1556691.jpg&fm=jpg']} // 이미지 주소 리스트 
           dotColor="#000000" 
           inactiveDotColor="#90A4AE"
-          ImageComponentStyle={{ width: wp('90%'), height: hp('30%') }} // 이미지 Style 적용
+          ImageComponentStyle={{ width: wp('85%'), height: hp('30%') }} // 이미지 Style 적용
           currentImageEmitter={(index) => { // 이미지가 바뀔때 어떤 동작을 할지 설정 
             // this.setState({
             //   currentIndex: index + 1,
             // });
           }}
         />
-        <View style={{display:'flex', flexDirection:'row', justifyContent: 'center', marginHorizontal: 40, marginVertical: 20}}>
+        <View style={{display:'flex', flexDirection:'row', justifyContent: 'center', marginHorizontal: 40, marginVertical: 15}}>
           <SubButton style={{margin: 17, flex: 1}}>저장</SubButton>
           <SubButton 
             style={{margin: 17, flex: 1}}
@@ -57,5 +68,16 @@ const styles = StyleSheet.create({
     width : wp('100%'),  // 스크린 가로 크기 100%
     height : hp('50%'), // 스크린 세로 크기 50%
     top : hp('30%'), // 스크린 세로 크기의 30% 만큼 0에서부터 이동 
+  },
+  header: {
+    width: wp('100%'),
+    paddingTop: 35,
+    paddingLeft: 10,
+    paddingRight: 20,
+    // paddingBottom: 10,
+    display:'flex',
+    flexDirection:'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   }
 });

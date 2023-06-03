@@ -14,9 +14,6 @@ export const AlbumBox = (props) => {
               style={styles.image}
               source={{'uri': props.image}} 
             />
-            <CustomText
-              style={styles.customtext}
-            >{props.title}</CustomText>
         </View>
       </Pressable>
     </View>
@@ -28,7 +25,7 @@ const styles = StyleSheet.create({
     flex: 0.5
   },
   container: {
-    margin: 10,
+    margin: 1,
     flex: 1,
     // borderColor: '#111111',
     // borderStyle: 'solid',
@@ -37,21 +34,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     display: 'flex',
     flexDirection: 'column',
-    shadowColor: 'black',
-    shadowOpacity: 0.25,
-    shadowOffset: {width: 0, height: 2},
-    shadowRadius: 2,
     backgroundColor: 'white',
-    elevation: 4
   },
   image: {
     flex: 4,
     width: '100%',
     height: undefined,
     aspectRatio: 1,
-  },
-  customtext: {
-    flex:1,
-    margin: 5,
   }
 })

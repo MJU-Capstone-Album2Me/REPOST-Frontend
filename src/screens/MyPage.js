@@ -2,29 +2,33 @@ import { StyleSheet, Text, View, Button, FlatList, Pressable } from 'react-nativ
 import { StatusBar } from 'expo-status-bar';
 import { AlbumBox } from '../components/molecules/AlbumBox';
 import { albums } from '../mockdatas/album-list';
+import { CustomText } from '../components/atoms/Text';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/reducers/auth';
 
-export const AlbumList = ({navigation}) => {
-  data = albums()
+export const MyPage = ({ navigation }) => {
+  const dispatch = useDispatch()
+
   return (
     <View style={styles.container}>
-      <FlatList
+      <Pressable onPress={() => {dispatch(logout())}}>
+        <CustomText>로그아웃</CustomText>
+      </Pressable>
+      {/* <FlatList
         data={albums()}
         keyExtractor={(item) => item.id}
         renderItem={(item) => {
           return (
-              <AlbumBox 
-                key={item.index}  
-                image={item.item.profileUrl}
-                title={item.item.name}
-                onPress={() => {
-                  navigation.navigate('post-list',{id: item.index })
-                }}
-              />
+            <AlbumBox 
+              key={item.index}  
+              image={item.item.profileUrl}
+              title={item.item.name}
+            />
           )
         }}
-        numColumns={2}
+        numColumns={1}
         // alwaysBounceVertical={false}
-      />
+      /> */}
     </View>
   )
 }

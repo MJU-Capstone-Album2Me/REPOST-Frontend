@@ -1,9 +1,9 @@
 import { View, Text, Pressable, StyleSheet, TouchableHighlight } from "react-native";
 import { CustomText } from "./Text";
 
-export const MainButton = ({ children, onPress }) => {
+export const MainButton = ({ children, onPress, style }) => {
   return (
-    <View style={styles.buttonOuterContainer}>
+    <View style={style ? [style, styles.buttonOuterContainer] : styles.buttonOuterContainer}>
       <Pressable 
         style={({pressed}) => 
           pressed

@@ -7,28 +7,29 @@ import { Header } from '../components/atoms/Header';
 import { NavigationBottomBar } from '../components/atoms/NavigationBottomBar';
 import { PostPreviewBox } from '../components/organisms/PostPreviewBox';
 import { CustomText } from '../components/atoms/Text';
+import { RoomBox } from '../components/molecules/RoomBox';
 
-export const AlbumList = ({navigation}) => {
+export const RoomList = ({navigation}) => {
   const data = albums()
-  let title = '일상의 기록들'
   return (
-    <>
+    <View style={{flex:1, backgroundColor:'white'}}>
     <Header>
-      <Text style={styles.headerText}>{title}</Text>
-      <Pressable
-        onPress={() => {navigation.navigate('alarm-list')}}>
-        <Image style={{width:28, height:28, marginRight:10, marginBottom: 3}} source={require('../../assets/bell.png')}/>
-      </Pressable>
+      <Text style={styles.headerText}>공유 룸 전체보기</Text>
     </Header>
-    <ScrollView>
-      <View style={styles.container}>
-        <PostPreviewBox data={data} navigation={navigation}/>
-        <PostPreviewBox data={data} navigation={navigation}/>
-        <PostPreviewBox data={data} navigation={navigation}/>
-        <PostPreviewBox data={data} navigation={navigation}/>
-      </View>
-    </ScrollView>
-    </>
+    <FlatList
+        data={['','','alarm', 'add']}
+        style={styles.container}
+        keyExtractor={(item) => item.id}
+        renderItem={(item) => {
+          if (item.item == 'add') return <RoomBox addedBtn={true} />
+          if (item.item == 'alarm') return <RoomBox hasAlarm={true} />
+          else return (<RoomBox/>)
+        }}
+        numColumns={2}
+        // alwaysBounceVertical={false}
+      />
+    
+    </View>
   )
 }
 
