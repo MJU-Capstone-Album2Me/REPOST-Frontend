@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: wp('100%'),
-    paddingTop: 35,
+    paddingTop: 60,
     paddingLeft: 20,
     paddingRight: 20,
     // paddingBottom: 10,

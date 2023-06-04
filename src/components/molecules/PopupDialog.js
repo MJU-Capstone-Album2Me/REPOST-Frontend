@@ -3,18 +3,23 @@ import { CustomText } from '../atoms/Text';
 import Dialog, { DialogContent,DialogButton } from 'react-native-popup-dialog';
 import { useState } from 'react';
 import { SubButton } from '../atoms/Buttons';
-import {launchCameraAsync, useCameraPermissions, PermissionStatus} from 'expo-image-picker'
+import {launchCameraAsync, useCameraPermissions, PermissionStatus, useMediaLibraryPermissions, launchImageLibraryAsync} from 'expo-image-picker'
 import { useDispatch } from 'react-redux';
 import { pushImg } from '../../store/reducers/imgs';
+import { useRoute } from '@react-navigation/native';
+
 
 export const CameraGalleryDialog = ({children, navigation, visible, setVisible}) => {
   const dispatch = useDispatch()
   const [pickedImage, setPickedImage] = useState();
   const [cameraPermissionInformation, requestPermission] = useCameraPermissions();
+  const [galleryPermissionInformation, requestGalleryPermission] = useMediaLibraryPermissions();
 
-  const verifyPermission = async () => {
+  
+  const currRoute = useRoute().name;
+
+  const cameraVerifyPermission = async () => {
     // 사용자 권한 요청을 아직 받지 않음을 의미
-    
     if (cameraPermissionInformation.status === PermissionStatus.UNDETERMINED) {
       const permissionResponse = await requestPermission();
       return permissionResponse.granted;
@@ -31,8 +36,27 @@ export const CameraGalleryDialog = ({children, navigation, visible, setVisible})
     return true;
   }
 
+  const galleryVerifyPermission = async () => {
+    // 사용자 권한 요청을 아직 받지 않음을 의미
+    if (galleryPermissionInformation.status === PermissionStatus.UNDETERMINED) {
+      const permissionResponse = await requestGalleryPermission();
+      return permissionResponse.granted;
+    }
+
+    if (galleryPermissionInformation.status === PermissionStatus.DENIED) {
+      Alert.alert(
+        '권한 부족',
+        '해당 기능을 사용하기 위해선 갤러리 접근 승인이 필요합니다'
+      )
+      return false;
+    }
+
+    return true;
+  }
+  
+
   const takeImageHandler = async () => {
-    const hasPermission = await verifyPermission();
+    const hasPermission = await cameraVerifyPermission();
 
     if (!hasPermission) {
       return ;
@@ -40,9 +64,27 @@ export const CameraGalleryDialog = ({children, navigation, visible, setVisible})
 
     const image = await launchCameraAsync()
     console.log(image.assets[0].uri);
-    setPickedImage(image.assets[0].uri)
-    pushImg(image.assets[0].uri)
+    // setPickedImage(image.assets[0].uri)
+    dispatch(pushImg({'img': image.assets[0].uri}))
+    setVisible(false)
+    if (currRoute!= 'image-upload') navigation.navigate('image-upload')
   }
+
+  const getImageHandler = async () => {
+    const hasPermission = await galleryVerifyPermission();
+
+    if (!hasPermission) {
+      return ;
+    }
+
+    const image = await launchImageLibraryAsync()
+    console.log(image.assets[0].uri);
+    setPickedImage(image.assets[0].uri)
+    dispatch(pushImg({'img': image.assets[0].uri}))
+    setVisible(false)
+    if (currRoute!= 'image-upload') navigation.navigate('image-upload')
+  }
+
 
   return (
       <Dialog
@@ -62,7 +104,9 @@ export const CameraGalleryDialog = ({children, navigation, visible, setVisible})
             카메라
         </SubButton>
         <SubButton 
-          onPress={ () => {navigation.navigate('login')} }
+          onPress={ () => {
+            getImageHandler()
+          }}
           style={{borderRadius: 0}}>
             갤러리
         </SubButton>

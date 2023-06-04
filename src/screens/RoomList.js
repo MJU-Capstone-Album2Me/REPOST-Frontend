@@ -8,9 +8,18 @@ import { NavigationBottomBar } from '../components/atoms/NavigationBottomBar';
 import { PostPreviewBox } from '../components/organisms/PostPreviewBox';
 import { CustomText } from '../components/atoms/Text';
 import { RoomBox } from '../components/molecules/RoomBox';
+import { useEffect } from 'react';
+import { getRoom } from '../util/room';
+import { useSelector } from 'react-redux';
 
 export const RoomList = ({navigation}) => {
   const data = albums()
+  const token = useSelector((state) => state.auth.token)
+
+  useEffect(() => {
+    getRoom(token)
+  }, [token])
+
   return (
     <View style={{flex:1, backgroundColor:'white'}}>
     <Header>
@@ -23,7 +32,7 @@ export const RoomList = ({navigation}) => {
         renderItem={(item) => {
           if (item.item == 'add') return <RoomBox addedBtn={true} />
           if (item.item == 'alarm') return <RoomBox hasAlarm={true} />
-          else return (<RoomBox/>)
+          else return (<RoomBox onPress={() => {navigation.navigate('home')}} />)
         }}
         numColumns={2}
         // alwaysBounceVertical={false}

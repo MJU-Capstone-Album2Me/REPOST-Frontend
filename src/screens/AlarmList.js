@@ -31,7 +31,7 @@ export const AlarmList = ({navigation}) => {
         <AlarmBox/>
         <AlarmBox/>
       </ScrollView>
-    <NavigationBottomBar navigation={navigation}/>
+    {/* <NavigationBottomBar navigation={navigation}/> */}
     </View>
   )
 }
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: wp('100%'),
-    paddingTop: 20,
+    paddingTop: 40,
     paddingLeft: 5,
     paddingBottom: 10
   },

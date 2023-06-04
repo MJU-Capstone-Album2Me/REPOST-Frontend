@@ -17,9 +17,10 @@ const styles = StyleSheet.create({
   headerOuter: {
     margin: 0,
     width: wp('100%'),
-    height: 80,
+    height: 100,
     backgroundColor:'white',
-    display:'flex'
+    display:'flex',
+    paddingTop:20,
     // borderBottomColor: '#000000',
     // borderBottomWidth: 1
   },

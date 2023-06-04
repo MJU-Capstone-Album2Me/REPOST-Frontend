@@ -52,7 +52,7 @@ const AuthStack = () => {
 const AuthenticatedStack = () => {
   return (
       <Stack.Navigator 
-        initialRouteName='home'
+        initialRouteName='room-list'
         screenOptions={{
           title: '앨범',
           // contentStyle: {borderBottomColor: '#111111', borderBottomWidth: 2, borderStyle: 'solid', backgroundColor: '#111111'},
@@ -99,7 +99,9 @@ const AuthenticatedStack = () => {
         <Stack.Screen
           name='image-upload'
           component={ImageUploadScreen}
-          options={{ headerTitle: (props) => <LogoTitle {...props} /> }} 
+          options={{ 
+            title: '이미지 업로드'  
+          }} 
           />
         <Stack.Screen
           name='post-detail'

@@ -5,6 +5,8 @@ import Dialog from "react-native-popup-dialog";
 import { SubButton, MainButton } from "../atoms/Buttons";
 import { CustomText } from "../atoms/Text";
 import { MainTextInput } from "../atoms/TextInput";
+import { createRoom } from "../../util/room";
+import { useSelector } from "react-redux";
 
 export const RoomBox = (props) => {
   const [visible, setVisible] = useState(false)
@@ -12,6 +14,8 @@ export const RoomBox = (props) => {
   const [inviteVisible, setInviteVisible] = useState(false)
   const [inviteLink, setInviteLink] = useState(null)
   const [newRoomTitle, setNewRoomTitle] = useState(null)
+  const [newRoomTitleError, setNewRoomTitleError] = useState(false)
+  const token = useSelector((state) => state.auth.token)
 
   return (
     <View style={styles.newCont}>
@@ -83,10 +87,18 @@ export const RoomBox = (props) => {
             placeholder={"룸 이름을 붙여주세요"}
             setChange={setNewRoomTitle}
             style={{marginTop: 10}}
+            isWrong={newRoomTitleError}
           />
           <MainButton
-            onPress={ () => {
-              setInviteVisible(false)
+            onPress={ async () => {
+              if (newRoomTitle==null) {
+                setNewRoomTitleError(true)
+              } else {
+                console.log(newRoomTitle)
+                setInviteVisible(false)
+                await createRoom(newRoomTitle, token)
+                console.log('complete')
+              }
             }}
             style={{borderRadius: 0, width: 100, alignSelf: 'flex-end'}}>
               룸 생성

@@ -11,14 +11,14 @@ import { NavigationBottomBar } from '../components/atoms/NavigationBottomBar';
 
 const Tab = createBottomTabNavigator();
 
-export const HomeTabs = () => {
+export const HomeTabs = ({navigation}) => {
   return (
     <Tab.Navigator initialRouteName={"home"} screenOptions={{headerShown:false}} tabBar={props => <NavigationBottomBar {...props} />}>
-      <Tab.Screen name="home" children={()=><AlbumList title="홈"/>}  />
-      <Tab.Screen name="gallery" children={()=><Gallery title="갤러리"/>} />
-      <Tab.Screen name="camera" children={()=><AlbumList title="카메라"/>} />
-      <Tab.Screen name="members" children={()=><AlbumList title="멤버"/>} />
-      <Tab.Screen name="mypage" children={()=><MyPage title="설정"/>} />
+      <Tab.Screen name="home" children={()=><AlbumList navigation={navigation} title="홈"/>}  />
+      <Tab.Screen name="gallery" children={()=><Gallery navigation={navigation} title="갤러리"/>} />
+      <Tab.Screen name="camera" children={()=><AlbumList navigation={navigation} title="카메라"/>} />
+      <Tab.Screen name="members" children={()=><AlbumList navigation={navigation} title="멤버"/>} />
+      <Tab.Screen name="mypage" children={()=><MyPage navigation={navigation} title="설정"/>} />
     </Tab.Navigator>
   );
 }

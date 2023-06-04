@@ -37,8 +37,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    padding: 15
-    // alignItems: 'center',
-    // justifyContent: 'center',
+    padding: 15,
+    display:'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

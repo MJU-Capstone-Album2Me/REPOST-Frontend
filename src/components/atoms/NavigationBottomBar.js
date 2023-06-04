@@ -159,9 +159,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     margin: 0,
     width: wp('100%'),
-    height: 70,
+    height: 90,
     backgroundColor:'white',
-    display:'flex'
+    display:'flex',
+    paddingBottom:20,
     // borderBottomColor: '#000000',
     // borderBottomWidth: 1
   },

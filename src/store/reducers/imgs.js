@@ -12,7 +12,7 @@ const imgSlice = createSlice({
         state.isEmpty = false
         state.imgsArr.push(action.payload.img)
       } else {
-        if (imgsArr.length < 5) {
+        if (state.imgsArr.length < 5) {
           state.imgsArr.push(action.payload.img)
         }
       }
