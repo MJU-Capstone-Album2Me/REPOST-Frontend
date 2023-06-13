@@ -32,7 +32,9 @@ export const ImagePicker = () => {
       return ;
     }
 
-    const image = await launchCameraAsync()
+    const image = await launchCameraAsync({
+      allowsEditing:true
+    })
     console.log(image.assets[0].uri);
     setPickedImage(image.assets[0].uri)
   }

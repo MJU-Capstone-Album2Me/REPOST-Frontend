@@ -59,6 +59,7 @@ const AuthenticatedStack = () => {
           headerShown: false
         }}
       >
+        {/* <StatusBar barStyle="light-content" backgroundColor="#6a51ae" /> */}
         <Stack.Screen 
           name="home" 
           component={HomeTabs} 

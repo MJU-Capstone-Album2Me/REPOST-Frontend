@@ -1,8 +1,13 @@
 
-import { View, Text, Pressable, StyleSheet, Image} from "react-native";
+import { useState } from "react";
+import { View, Text, Pressable, StyleSheet, Image, ActivityIndicator} from "react-native";
 import { CustomText } from "../atoms/Text";
 
 export const AlbumBox = (props) => {
+  const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+  const [loading, setLoading] = useState(true)
+
   return (
     <View style={styles.newCont}>
       <Pressable
@@ -12,7 +17,11 @@ export const AlbumBox = (props) => {
           >
             <Image 
               style={styles.image}
-              source={{'uri': props.image}} 
+              source={loading? require('../../../assets/Loading_icon.gif') :{'uri': props.image}} 
+              placeholder={ Platform.OS == 'android' ?  null: blurhash }
+              onLoad={()=>{setLoading(false)}}
+              // onLoadStart={setLoading(true)}
+              // onLoadEnd={setLoading(false)}
             />
         </View>
       </Pressable>
@@ -22,7 +31,8 @@ export const AlbumBox = (props) => {
 
 const styles = StyleSheet.create({
   newCont: {
-    flex: 0.5
+    flex: 1,
+    flexDirection: 'row'
   },
   container: {
     margin: 1,
@@ -37,9 +47,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   image: {
-    flex: 4,
+    // flex: 4,
     width: '100%',
-    height: undefined,
+    height: '100%',
     aspectRatio: 1,
   }
 })

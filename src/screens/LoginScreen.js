@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View, Button, TextInput, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, Pressable,
+  KeyboardAvoidingView,
+  ScrollView,  useWindowDimensions,} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { MainButton } from '../components/atoms/Buttons';
 import { MainTextInput } from '../components/atoms/TextInput';
@@ -15,6 +17,7 @@ export const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token)
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  const windowHeight = useWindowDimensions().height;
   
   useEffect(() => {
     console.log('redux', isAuthenticated)
@@ -33,9 +36,10 @@ export const LoginScreen = ({navigation}) => {
   const [isAuthenticating, setIsAuthenticating] = useState(false)
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {minHeight: Math.round(windowHeight)}]}>
     {isAuthenticating ? <LoadingOverlay /> : null}
-      <Text style={{fontSize: 35, paddingBottom:15, fontFamily:'nexon-gothic-bold'}}>RE:POST</Text>
+      <Text style={{fontSize: 35,  fontFamily:'nexon-gothic-bold'}}>RE:POST</Text>
+      {/* <Text style={{fontSize: 35, paddingBottom:15, fontFamily:'nexon-gothic-bold'}}>POST</Text> */}
       <MainTextInput 
         placeholder={"ID"}
         setChange={(e) => {
@@ -93,6 +97,7 @@ export const LoginScreen = ({navigation}) => {
                 const token = await authenticate(inputValue.id, inputValue.password)
                 dispatch(redux.authenticate({'token': token}))
               } catch (error) {
+                console.log(error)
                 alert('해당되는 계정이 없습니다')
               }
               setIsAuthenticating(false)

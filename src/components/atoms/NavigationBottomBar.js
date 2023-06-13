@@ -161,8 +161,8 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     height: 90,
     backgroundColor:'white',
-    display:'flex',
-    paddingBottom:20,
+    // display:'flex',
+    paddingBottom:10,
     // borderBottomColor: '#000000',
     // borderBottomWidth: 1
   },

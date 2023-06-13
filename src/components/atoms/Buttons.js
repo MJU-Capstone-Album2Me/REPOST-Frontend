@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     // fontSize: 18,
   },
   pressed: {
-    opacity: 0.75
+    // opacity: 0.75
   },
   subPressed: {
     backgroundColor: '#eeeeee'

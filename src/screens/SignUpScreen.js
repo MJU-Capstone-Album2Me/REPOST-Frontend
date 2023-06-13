@@ -10,6 +10,8 @@ import {Shadow} from 'react-native-shadow-2'
 import LoadingOverlay from '../components/organisms/LoadingOverlay';
 import { useDispatch } from 'react-redux';
 import { authenticate } from '../store/reducers/auth';
+import { SubButton } from '../components/atoms/Buttons';
+import Toast from 'react-native-toast-message';
 
 export const SignUpScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -38,6 +40,14 @@ export const SignUpScreen = ({navigation}) => {
     nickname: true
   })
 
+  const showToast = () => {
+    return Toast.show({
+      type: 'success',
+      text1: '복사가 완료되었습니다',
+      // text2: 'This is some something 👋'
+    });
+  }
+
   // input 형식 체크
   const idFormatter = (value) => {
     const regId = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,19}$/;
@@ -56,6 +66,7 @@ export const SignUpScreen = ({navigation}) => {
         })
       })}
   }
+
   const passwordFormatter = (value) => {
     const regPass = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
     if (regPass.test(value)) {
@@ -75,6 +86,25 @@ export const SignUpScreen = ({navigation}) => {
     }
   }
 
+  const nicknameFormatter = (value) => {
+  const regNickname = /^[가-힣a-zA-Z].{2,10}$/
+    if (regNickname.test(value)) {
+      setFinished((prev) => {
+        return ({
+          ...prev,
+          nickname: false
+        })
+      })
+    } else {
+      setFinished((prev) => {
+        return ({
+          ...prev,
+          nickname: true
+        })
+      })
+    }
+  }
+
   // 비동기 로딩 변수
   const [isAuthenticating, setIsAuthenticating] = useState(false)
   const routes = navigation.getState()?.routes;
@@ -82,7 +112,7 @@ export const SignUpScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      {isAuthenticating ? <LoadingOverlay /> : null}
+      {isAuthenticating && <LoadingOverlay />}
       <Shadow containerStyle={{width: wp('100%')}} distance={2}>
       <View style={styles.header}>
         <View 
@@ -95,25 +125,26 @@ export const SignUpScreen = ({navigation}) => {
       </View>
       </Shadow>
       <ScrollView style={{ marginTop: 100, height:'100%'}}>
-        <MainTextInput
-          placeholder={"아이디"}
-          setChange={(e) => {
-            idFormatter(e)
-            setErrorValue((prev) => {
+        {/* <View style={{display:'flex', flexDirection:'row'}}> */}
+          <MainTextInput
+            placeholder={"아이디"}
+            setChange={(e) => {
+              idFormatter(e)
+              setErrorValue((prev) => {
+                  return ({
+                    ...prev,
+                    id: false
+                  })
+              })
+              setInputValue((prev) => {
                 return ({
                   ...prev,
-                  id: false
+                  id: e
                 })
-            })
-            setInputValue((prev) => {
-              return ({
-                ...prev,
-                id: e
               })
-            })
-          }}
-          isWrong={errorValue.id}
-        />
+            }}
+            isWrong={errorValue.id}
+          />
         <CustomText style={styles.infoText}>{finished.id && '영문, 숫자 조합으로 4-20자리 입력해주세요'}</CustomText>
         <MainTextInput
           placeholder={"비밀번호"}
@@ -136,14 +167,10 @@ export const SignUpScreen = ({navigation}) => {
           secure={true}
         />
         <CustomText style={styles.infoText}>{finished.password && '영문, 숫자, 특수기호 조합으로 8-20자리 이상 입력해주세요.'}</CustomText>
-        <View style={{height:30}}></View>
-        {/* <MainTextInput
-          placeholder={"이름"}
-          setChange={setName}
-        /> */}
         <MainTextInput
           placeholder={"닉네임"}
           setChange={(e) => {
+            nicknameFormatter(e)
             setErrorValue((prev) => {
               return ({
                 ...prev,
@@ -159,15 +186,12 @@ export const SignUpScreen = ({navigation}) => {
           }}
           isWrong={errorValue.nickname}
         />
-        {/* <MainTextInput
-          placeholder={"생년월일 8자리"}
-          setChange={setBirthday}
-          // isWrong={true}
-        /> */}
+        <CustomText style={styles.infoText}>{finished.nickname && '한글 또는 영어 조합으로 2-10자리 입력해주세요'}</CustomText>
         <View style={{height:30}}></View>
         <MainButton 
           style={{width: wp('80%')}}
           onPress={ async () => {
+            console.log(inputValue)
             let cnt = 0
             Object.keys(inputValue).forEach((key) => {
               if (inputValue[key] == null || inputValue[key].replace(/\s/g, '').length == 0) {
@@ -179,9 +203,22 @@ export const SignUpScreen = ({navigation}) => {
               alert('모든 항목을 작성해주세요')
             } else {
               setIsAuthenticating(true)
-              const token = await createUser(inputValue.id, inputValue.password, inputValue.nickname)
-              dispatch(authenticate({'token': token}))
+              const object = await createUser(inputValue.id, inputValue.password, inputValue.nickname)
               setIsAuthenticating(false)
+              if (object.status == '200') {
+                navigation.navigate('login')
+                return Toast.show({
+                  type: 'success',
+                  text1: object.message,
+                  // text2: 'This is some something 👋'
+                });
+              } else {
+                return Toast.show({
+                  type: 'error',
+                  text1: object.message,
+                  // text2: 'This is some something 👋'
+                });
+              }
             }
             // navigation.navigate('login')
           }}>
@@ -210,7 +247,7 @@ const styles = StyleSheet.create({
   },
   header: {
     width: wp('100%'),
-    paddingTop: 30,
+    paddingTop: 40,
     paddingLeft: 5,
     paddingBottom: 5,
     display: 'flex',

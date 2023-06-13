@@ -1,13 +1,16 @@
 
-import { View, Text, Pressable, StyleSheet, Image, ScrollView} from "react-native";
+import { View, Text, Pressable, StyleSheet, Image, ScrollView, FlatList} from "react-native";
 import { CustomText } from "../atoms/Text";
+import { ScrollView as GestureHandlerScrollView } from 'react-native-gesture-handler'
 
 export const AlbumHorizontalBox = ({children}) => {
   return (
     <ScrollView
+    nestedScrollEnabled = {true}
+      horizontal
       style={styles.container}
       pagingEnabled={false}
-      horizontal= {true}
+      showsHorizontalScrollIndicator={false}
       decelerationRate='fast'
       snapToAlignment={"center"}
       contentContainerStyle={{

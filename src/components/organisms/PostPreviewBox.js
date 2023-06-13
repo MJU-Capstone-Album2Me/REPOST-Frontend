@@ -1,27 +1,47 @@
 
-import { View, Text, Pressable, StyleSheet, TouchableHighlight, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, TouchableHighlight, Platform, TouchableWithoutFeedback } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useDispatch } from "react-redux";
 import { CustomText } from "../atoms/Text";
 import { AlbumHorizontalBox } from "../molecules/AlbumHorizontalBox";
+import { selectPost } from "../../store/reducers/select";
+import { Image } from 'expo-image';
 
 export const PostPreviewBox = ({ children, style, data, navigation }) => {
+  const dispatch = useDispatch()
+  const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
   return (
       <Pressable 
         style={styles.outerContainer}
-        onPress={() => {navigation.navigate('post-detail')}}
+        onPress={() => {
+          dispatch(selectPost({postId: data.id}))
+          navigation.navigate('post-detail')
+        }}
         >
         <Text style={styles.headerText}>
-        2004.05.26 엄마생신
+        {data.title}
         </Text>
         <AlbumHorizontalBox>
-          {/* <Image source={{'uri':'https://images.pexels.com/photos/296282/pexels-photo-296282.jpeg?cs=srgb&dl=pexels-lukas-296282.jpg&fm=jpg'}}/> */}
           {
-            data.map((row) => <Image style={styles.img} source={{'uri': row.profileUrl}}/>)
+            data.images.map((row) => 
+            <TouchableWithoutFeedback>
+              <Pressable 
+                onPress={() => {          
+                  dispatch(selectPost({postId: data.id}))
+                  navigation.navigate('post-detail')}}>
+              <Image 
+                style={styles.img} 
+                source={{'uri': row.postImageUrl}} 
+                // placeholder={ Platform.OS == 'android' ? null : blurhash }
+                id={row.id}/>
+              </Pressable>
+              </TouchableWithoutFeedback>)
           }
         </AlbumHorizontalBox>
         <CustomText style={styles.content}>
-        서프라이즈로 챙겨드렸던 기억이 나네
-        아빠가 케이크 사오시고 아무도 모르는척 했..
+          {data.contents}
         </CustomText>
       </Pressable>
   )
@@ -42,9 +62,10 @@ const styles = StyleSheet.create({
   },
   outerContainer: {
     margin: 0,
-    width: wp('100%'),
-    backgroundColor:'white',
+    // width: wp('100%'),
+    backgroundColor:'#ffffff',
     marginBottom: 20,
+    flex:1
   },
   img: {
     width: 220,

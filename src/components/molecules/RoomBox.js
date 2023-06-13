@@ -7,6 +7,8 @@ import { CustomText } from "../atoms/Text";
 import { MainTextInput } from "../atoms/TextInput";
 import { createRoom } from "../../util/room";
 import { useSelector } from "react-redux";
+import { requestJoinRoom } from "../../util/room";
+import Toast from 'react-native-toast-message';
 
 export const RoomBox = (props) => {
   const [visible, setVisible] = useState(false)
@@ -66,8 +68,15 @@ export const RoomBox = (props) => {
             style={{marginTop: 10}}
           />
           <MainButton
-            onPress={ () => {
+            onPress={ async () => {
               setInviteVisible(false)
+              await requestJoinRoom(inviteLink, token)
+              setEntranceVisible(false)
+              return Toast.show({
+                type: 'success',
+                text1: '초대요청이 완료되었습니다. ',
+                text2: '관리자의 승인을 기다려주세요.'
+              });
             }}
             style={{borderRadius: 0, width: 100, alignSelf: 'flex-end'}}>
               입장 요청
@@ -97,6 +106,7 @@ export const RoomBox = (props) => {
                 console.log(newRoomTitle)
                 setInviteVisible(false)
                 await createRoom(newRoomTitle, token)
+                await props.roomHandeler()
                 console.log('complete')
               }
             }}
@@ -115,10 +125,10 @@ export const RoomBox = (props) => {
               <View style={styles.alram}></View>:null}
               <Text
                 style={styles.customtext}
-              >우리팀 화이팅</Text>
+              >{props.name}</Text>
               <CustomText
                 style={styles.subtext}
-              >총 10명</CustomText>
+              >전체인원 {props.membersCount}명</CustomText>
           </View>
         </Pressable>
         }

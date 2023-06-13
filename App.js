@@ -8,7 +8,13 @@ import { useFonts } from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Toast from 'react-native-toast-message';
+import { toastConfig } from './src/components/molecules/ToastConfig';
+//import
+import { useAssets } from 'expo-asset';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 export default function App() {
 
   // 상태표시줄 포함 (android)
@@ -23,7 +29,25 @@ export default function App() {
     'nexon-gothic-bold': require('./assets/fonts/NEXON_Lv2_Gothic_Bold.ttf'),
   })
 
-  if (!fontsLoaded) {
+  const [assetsLoaded] = useAssets([
+    require('./assets/adaptive-icon.png'),
+    require('./assets/back.png'),
+    require('./assets/bell.png'),
+    require('./assets/favicon.png'),
+    require('./assets/home.png'),
+    require('./assets/icon.png'),
+    require('./assets/image.png'),
+    require('./assets/multi-users.png'),
+    require('./assets/next.png'),
+    require('./assets/prev-icon.png'),
+    require('./assets/reject.png'),
+    require('./assets/splash.png'),
+    require('./assets/user_default.png'),
+    require('./assets/user.png'),
+    require('./assets/logout.png'),
+  ])
+
+  if (!fontsLoaded || !assetsLoaded) {
     return <AppLoading />
   }
 
@@ -32,6 +56,7 @@ export default function App() {
     <Provider store={store}>
       <NavigationContainer>
         <RootNavigation />
+        <Toast config={toastConfig} />
       </NavigationContainer>
     </Provider>
   );

@@ -8,17 +8,29 @@ import { NavigationBottomBar } from '../components/atoms/NavigationBottomBar';
 import { PostPreviewBox } from '../components/organisms/PostPreviewBox';
 import { CustomText } from '../components/atoms/Text';
 import { RoomBox } from '../components/molecules/RoomBox';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getRoom } from '../util/room';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearRoom, selectRoom } from '../store/reducers/select';
+import { setRoomInviteCode } from '../store/reducers/select';
+import { getRoomInviteCode } from '../util/room';
 
 export const RoomList = ({navigation}) => {
   const data = albums()
   const token = useSelector((state) => state.auth.token)
+  const [roomList, setRoomList] = useState([])
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    getRoom(token)
-  }, [token])
+  useEffect( async () => {
+    roomHandeler()
+  }, [])
+
+  const roomHandeler = async () => {
+    dispatch(clearRoom())
+    const roomData = await getRoom(token)
+    console.log(roomData)
+    setRoomList(roomData)
+  }
 
   return (
     <View style={{flex:1, backgroundColor:'white'}}>
@@ -26,13 +38,22 @@ export const RoomList = ({navigation}) => {
       <Text style={styles.headerText}>공유 룸 전체보기</Text>
     </Header>
     <FlatList
-        data={['','','alarm', 'add']}
+        data={[...roomList, {id:'add', name:'add'}]}
         style={styles.container}
         keyExtractor={(item) => item.id}
         renderItem={(item) => {
-          if (item.item == 'add') return <RoomBox addedBtn={true} />
-          if (item.item == 'alarm') return <RoomBox hasAlarm={true} />
-          else return (<RoomBox onPress={() => {navigation.navigate('home')}} />)
+          if (item.item.id == 'add') return <RoomBox addedBtn={true} roomHandeler={roomHandeler} />
+          // if (item.item.id == 'alarm') return <RoomBox hasAlarm={true} />
+          else return (
+            <RoomBox 
+              name={item.item.name} 
+              membersCount={item.item.membersCount}
+              onPress={ async () => {
+                dispatch(selectRoom({'roomId': item.item.id, 'roomNm': item.item.name}))
+                const roomCode = await getRoomInviteCode( token, item.item.id)
+                dispatch(setRoomInviteCode({'roomInviteCode': roomCode}))
+                navigation.navigate('home')}
+              } />)
         }}
         numColumns={2}
         // alwaysBounceVertical={false}
